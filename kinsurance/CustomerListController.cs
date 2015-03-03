@@ -15,7 +15,7 @@ namespace kinsurance
 		{
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), customerCellId);
 			TableView.Source = new customerDataSource (this);
-			//customerList = new List<CustomerEntity> ();
+			customerList = new List<CustomerEntity> ();
 		}
 			
 		class customerDataSource : UITableViewSource
@@ -42,8 +42,7 @@ namespace kinsurance
 				var cell = tableView.DequeueReusableCell (CustomerListController.customerCellId);
 
 				int row = indexPath.Row;
-				cell.TextLabel.Text = controller.customerList[row].title + " " + 
-					controller.customerList[row].firstname + " " + controller.customerList[row].lastname;
+				cell.TextLabel.Text = controller.customerList[row].getFullName();
 				return cell;
 			}
 		}

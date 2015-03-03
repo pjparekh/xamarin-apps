@@ -6,21 +6,19 @@ using MonoTouch.UIKit;
 using System.Collections.Generic;
 
 using KinveyXamarin;
+using System.Threading.Tasks;
 
 namespace kinsurance
 {
 	public partial class kinsuranceViewController : UIViewController
 	{
-
-		public List<CustomerEntity> customerList { get; set; }
-
+	
 		static bool UserInterfaceIdiomIsPhone {
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
 		}
 
 		public kinsuranceViewController (IntPtr handle) : base (handle)
 		{
-			customerList = new List<CustomerEntity> ();
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -42,6 +40,7 @@ namespace kinsurance
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
+			Console.WriteLine ("Segue to Customer List Screen...");
 			base.PrepareForSegue (segue, sender);
 
 			// set the View Controller that’s powering the screen we’re
@@ -49,14 +48,13 @@ namespace kinsurance
 
 			var CustomerListContoller = segue.DestinationViewController as CustomerListController;
 
-			//set the Table View Controller’s list of customers to the
-			// list of customers we obtained from Kinvey
-
+			//set the Table View Controller’s list of customers to the list of customers we obtained from an external service
 			if (CustomerListContoller != null) {
-				CustomerListContoller.customerList = customerList;
+				Console.WriteLine ("Retrieving customers from backend...");
+				CustomerListContoller.customerList = KinveyService.getCustomers();
+				Console.WriteLine ("Set CustomerList variable in Customer List Screen...");
 			}
 		}
-
 
 		public override void ViewWillAppear (bool animated)
 		{
@@ -88,15 +86,7 @@ namespace kinsurance
 			txtPassword.ResignFirstResponder();
 
 			KinveyService.login(username, password, new KinveyDelegate<User> {
-				onSuccess = (user) => KinveyService.getCustomers (new KinveyDelegate<CustomerEntity[]> {
-					onSuccess = (customers) => {
-						for (int i=0; i<customers.Length; i++) {
-							customerList.Add(customers[i]);
-							Console.WriteLine ("Customer " + i + ": " + customers[i].firstname);
-						}
-					},
-					onError = (error) => Console.WriteLine (error.Message)
-				}),
+				onSuccess = (user) => Console.WriteLine(user.UserName),
 				onError = (error) => {
 					var av = new UIAlertView("Error", error.Message, null, "OK", null);
 					av.Show();

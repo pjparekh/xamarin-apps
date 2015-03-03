@@ -15,7 +15,7 @@ namespace kinsurance
 
 
 		[JsonProperty("_id")]
-		public string ID {get; set;}
+		public string ID;
 
 		[JsonProperty("_kmd")]
 		public KinveyMetaData kmd;
@@ -37,6 +37,10 @@ namespace kinsurance
 
 		[JsonProperty("mobile")]
 		public string mobile;
+
+		public string getFullName() {
+			return title + " " + firstname + " " + lastname;
+		}
 	}
 }
 

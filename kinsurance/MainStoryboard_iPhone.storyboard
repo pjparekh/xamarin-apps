@@ -36,7 +36,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="85" translatesAutoresizingMaskIntoConstraints="NO" text="password" clearButtonMode="whileEditing" clearsOnBeginEditing="YES" fixedFrame="YES">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="85" translatesAutoresizingMaskIntoConstraints="NO" text="password123" clearButtonMode="whileEditing" clearsOnBeginEditing="YES" fixedFrame="YES">
                                 <rect key="frame" x="20" y="195" width="280" height="30"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
