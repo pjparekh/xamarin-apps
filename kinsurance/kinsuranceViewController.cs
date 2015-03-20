@@ -19,6 +19,7 @@ namespace kinsurance
 
 		public kinsuranceViewController (IntPtr handle) : base (handle)
 		{
+			Console.WriteLine (this.GetType ().Name);
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -34,27 +35,10 @@ namespace kinsurance
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			btnLogin.Enabled = true;
 
 		}
-
-
-		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
-		{
-			Console.WriteLine ("Segue to Customer List Screen...");
-			base.PrepareForSegue (segue, sender);
-
-			// set the View Controller that’s powering the screen we’re
-			// transitioning to
-
-			var CustomerListContoller = segue.DestinationViewController as CustomerListController;
-
-			//set the Table View Controller’s list of customers to the list of customers we obtained from an external service
-			if (CustomerListContoller != null) {
-				Console.WriteLine ("Retrieving customers from backend...");
-				CustomerListContoller.customerList = KinveyService.getCustomers();
-				Console.WriteLine ("Set CustomerList variable in Customer List Screen...");
-			}
-		}
+			
 
 		public override void ViewWillAppear (bool animated)
 		{
@@ -64,6 +48,7 @@ namespace kinsurance
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
+			btnLogin.Enabled = true;
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -76,23 +61,68 @@ namespace kinsurance
 			base.ViewDidDisappear (animated);
 		}
 
-
-
 		partial void btnLogin_TouchUpInside (UIButton sender)
 		{
+			btnLogin.Enabled = false;
 			string username = txtUsername.Text;
 			string password = txtPassword.Text;
 			txtUsername.ResignFirstResponder();
 			txtPassword.ResignFirstResponder();
 
-			KinveyService.login(username, password, new KinveyDelegate<User> {
-				onSuccess = (user) => Console.WriteLine(user.UserName),
-				onError = (error) => {
-					var av = new UIAlertView("Error", error.Message, null, "OK", null);
-					av.Show();
-				}
-			});
+			if (!KinveyService.getClient ().User ().isUserLoggedIn ()) {
+				Console.WriteLine ("Before user login...");
+				KinveyService.login (username, password, new KinveyDelegate<User> {
+					//login success
+					onSuccess = (user) => {
+
+						Console.WriteLine ("Logged in user: " + user.UserName);
+						afterLogin();
+
+					},
+					//login error
+					onError = (error) => {
+						Console.WriteLine ("Error logging in user: " + error.Message);
+					}
+				});
+			} else {
+				Console.WriteLine ("User " + KinveyService.getClient().User().UserName + " is already logged in...");
+				afterLogin();
+			}
+
 		}
+
+		private void afterLogin() {
+			Console.WriteLine ("Retrieving customers using logged in user: " + KinveyService.getClient ().User().UserName);
+			List<CustomerEntity> customerList = new List<CustomerEntity> ();
+			KinveyService.getCustomers (new KinveyDelegate<CustomerEntity[]> {
+				// get customer success
+				onSuccess = (customers) => {
+					Console.WriteLine ("Retrieved customers from backend...");
+					for (int i = 0; i < customers.Length; i++) {
+						customerList.Add (customers [i]);
+						Console.WriteLine ("Customer " + i + ": " + customers [i].getFullName ());
+					}
+
+					try {
+						InvokeOnMainThread(() => {
+							CustomerListController customerListController = this.Storyboard.InstantiateViewController("CustomerListController") as CustomerListController;
+							if (customerListController != null) {
+								customerListController.customerList = customerList;
+								this.NavigationController.PushViewController (customerListController, true);
+
+							}
+						});
+					} catch (Exception e) {
+						Console.WriteLine("Error changing views..." + e.Message);
+					}
+
+				},
+				// get customer error
+				onError = (error) => Console.WriteLine ("Error in getting customers from backend - " + error.Message)
+			});
+
+		}
+
 		#endregion
 	}
 }

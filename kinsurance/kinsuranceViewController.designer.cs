@@ -16,6 +16,10 @@ namespace kinsurance
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIActivityIndicatorView actIndicatorLogin { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnLogin { get; set; }
 
 		[Outlet]
@@ -32,6 +36,10 @@ namespace kinsurance
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (actIndicatorLogin != null) {
+				actIndicatorLogin.Dispose ();
+				actIndicatorLogin = null;
+			}
 			if (btnLogin != null) {
 				btnLogin.Dispose ();
 				btnLogin = null;

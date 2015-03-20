@@ -11,19 +11,11 @@ using System.CodeDom.Compiler;
 
 namespace kinsurance
 {
-	[Register ("CustomerListController")]
-	partial class CustomerListController
+	[Register ("PolicyListController")]
+	partial class PolicyListController
 	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView CustomerList { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
-			if (CustomerList != null) {
-				CustomerList.Dispose ();
-				CustomerList = null;
-			}
 		}
 	}
 }

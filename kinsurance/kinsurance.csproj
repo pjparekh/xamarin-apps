@@ -127,6 +127,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\Phone-50.png" />
+    <BundleResource Include="Resources\Message-50.png" />
+    <BundleResource Include="Resources\auto4.png" />
+    <BundleResource Include="Resources\rain54.png" />
+    <BundleResource Include="Resources\familiar17.png" />
+    <BundleResource Include="Resources\shield84.png" />
+    <BundleResource Include="Resources\home63.png" />
+    <BundleResource Include="Resources\Icon-60%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
@@ -149,10 +157,34 @@
     <Compile Include="CustomerListController.designer.cs">
       <DependentUpon>CustomerListController.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomerDetailsViewController.cs" />
+    <Compile Include="CustomerDetailsViewController.designer.cs">
+      <DependentUpon>CustomerDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolicyListController.cs" />
+    <Compile Include="PolicyListController.designer.cs">
+      <DependentUpon>PolicyListController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolicyEntity.cs" />
+    <Compile Include="PolicyDetailsViewController.cs" />
+    <Compile Include="PolicyDetailsViewController.designer.cs">
+      <DependentUpon>PolicyDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolicyType.cs" />
+    <Compile Include="AddPolicyViewController.cs" />
+    <Compile Include="AddPolicyViewController.designer.cs">
+      <DependentUpon>AddPolicyViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <ItemGroup>
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\kinvey-splash-750-1334.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\kinvey-splash-640-1136.png" />
+  </ItemGroup>
 </Project>
